@@ -10,16 +10,26 @@ interface StatFields {
   formatter?: (arg0: any) => any;
 }
 
+type Fields =
+  | "blockHeight"
+  | "backlogLength"
+  | "tradesPerSecond"
+  | "averageOrdersPerBlock"
+  | "ordersPerSecond"
+  | "txPerBlock"
+  | "blockDuration"
+  | "status"
+  | "totalPeers"
+  | "vegaTime"
+  | "appVersion"
+  | "chainVersion"
+  | "upTime"
+  | "chainId";
+
 // Stats fields config. Keys correspond to graphql queries, and values
 // contain the associated data and methods we need to render. A single query
 // can be rendered in multiple ways (see 'uptime').
-const statsFields: { [key in keyof Stats_statistics]: StatFields[] } = {
-  __typename: [
-    {
-      title: "Height",
-      goodThreshold: (height: number) => height >= 60,
-    },
-  ],
+const statsFields: { [key in Fields]: StatFields[] } = {
   blockHeight: [
     {
       title: "Height",
@@ -211,7 +221,7 @@ export const Stats = () => {
       <h2>Network Stats</h2>
       <div>
         {Object.entries(statsFields).map(([statKey, value]) => {
-          const statsKey = statKey as keyof Stats_statistics;
+          const statsKey = statKey as Fields;
           return renderStats(statsKey, value, returnedStatistics[statsKey]);
         })}
       </div>
