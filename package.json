@@ -46,6 +46,9 @@
     ]
   },
   "resolutions": {
-    "graphql": "15.7.2" 
+    "graphql": "15.7.2"
+  },
+  "devDependencies": {
+    "sass": "^1.49.7"
   }
 }

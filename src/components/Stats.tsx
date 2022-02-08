@@ -1,8 +1,9 @@
 import { useQuery, gql } from "@apollo/client";
 import { Stats as IStats, Stats_statistics } from "./__generated__/Stats";
+import "./Stats.scss";
 
 const defaultFieldFormatter = (field: any) =>
-  field === undefined ? "no data" : JSON.stringify(field);
+  field === undefined ? "no data" : field;
 
 interface StatFields {
   title: string;
@@ -135,7 +136,7 @@ const statsFields: { [key in keyof Stats_statistics]: StatFields[] } = {
         if (!t) {
           return;
         }
-        return `${new Date(t).toLocaleString().replace(",", "<br>")}`;
+        return `${new Date(t).toLocaleString().replace(",", " ")}`;
       },
     },
   ],
@@ -170,34 +171,8 @@ const STATS_QUERY = gql`
   }
 `;
 
-const renderStats = (
-  statKey: keyof Stats_statistics,
-  statsField: StatFields[],
-  statData: string
-) => {
-  if (statKey in statsFields) {
-    statsField.map((s: any) => {
-      return (
-        <div key={statKey}>
-          <h3>{s.title}</h3>
-          <div className="value">
-            {s.formatter
-              ? s.formatter(statData)
-              : defaultFieldFormatter(statData)}
-          </div>
-          {s.goodThreshold ? (
-            <div className="threshold">
-              Good threshold met: {s.goodThreshold(statData)}
-            </div>
-          ) : null}
-        </div>
-      );
-    });
-  }
-};
-
 export const Stats = () => {
-  const query = useQuery<IStats>(STATS_QUERY, { pollInterval: 1000 });
+  const query = useQuery<IStats>(STATS_QUERY, { pollInterval: 800 });
 
   if (!query.data) {
     // Todo - check best practice - there's a loading option returned from graphql use that
@@ -207,14 +182,30 @@ export const Stats = () => {
   const returnedStatistics = query.data.statistics;
 
   return (
-    <div>
-      <h2>Network Stats</h2>
-      <div>
-        {Object.entries(statsFields).map(([statKey, value]) => {
-          const statsKey = statKey as keyof Stats_statistics;
-          return renderStats(statsKey, value, returnedStatistics[statsKey]);
+    <table>
+      <thead><th colSpan={3}>Network Stats</th></thead>
+      {Object.entries(statsFields).map(([key, value]) => {
+          const statKey = key as keyof Stats_statistics;
+
+          if (statKey === "__typename") {
+            return "";
+          }
+
+          const statData = returnedStatistics[statKey];
+
+          // Loop through the list of render options associated with the key
+          return value.map((s) => {
+            return (
+              <tr key={statKey}>
+                <td>{s.title}</td>
+                <td>{s.formatter ? s.formatter(statData) : defaultFieldFormatter(statData)}</td>
+                <td>{s.goodThreshold ? (
+                  <div className="threshold" style={{backgroundColor: `${s.goodThreshold(statData) ? "green" : "red"}`}}></div>
+                ) : null}</td>
+              </tr>
+            )
+          })
         })}
-      </div>
-    </div>
+    </table>
   );
 };
