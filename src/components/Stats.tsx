@@ -1,6 +1,6 @@
 import { useQuery, gql } from "@apollo/client";
 import { Stats as IStats, Stats_statistics } from "./__generated__/Stats";
-import "./Stats.scss";
+import "./stats.scss";
 
 const defaultFieldFormatter = (field: any) =>
   field === undefined ? "no data" : field;
@@ -172,14 +172,17 @@ const STATS_QUERY = gql`
 `;
 
 export const Stats = () => {
-  const query = useQuery<IStats>(STATS_QUERY, { pollInterval: 800 });
+  const {data, loading, error} = useQuery<IStats>(STATS_QUERY, { pollInterval: 800 });
 
-  if (!query.data) {
-    // Todo - check best practice - there's a loading option returned from graphql use that
+  if (error) {
+    return <h3>Couldn't connect to Mainnet</h3>
+  }
+
+  if (loading || !data) {
     return <h3>Attempting connection</h3>;
   }
 
-  const returnedStatistics = query.data.statistics;
+  const returnedStatistics = data.statistics;
 
   return (
     <table>
@@ -188,7 +191,7 @@ export const Stats = () => {
           const statKey = key as keyof Stats_statistics;
 
           if (statKey === "__typename") {
-            return "";
+            return null;
           }
 
           const statData = returnedStatistics[statKey];
