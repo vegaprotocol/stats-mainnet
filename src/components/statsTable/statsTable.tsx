@@ -189,7 +189,7 @@ export const StatsTable = () => {
 
   useEffect(() => {
     async function getStats() {
-      const returned = await fetch('https://api.token.vega.xyz/statistcs').then(response => response.json());
+      const returned = await fetch('https://api.token.vega.xyz/statistics').then(response => response.json());
       setData(returned);
     }
 
