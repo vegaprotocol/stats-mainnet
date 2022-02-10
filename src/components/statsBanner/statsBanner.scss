@@ -1,0 +1,11 @@
+@import "../../styles/fonts";
+
+h3, th {
+    font-family: $font-al;
+    text-transform: uppercase;
+}
+
+.threshold {
+    width: 10px;
+    height: 10px;
+}

@@ -1,6 +1,7 @@
+import { useEffect, useState } from "react";
 import { useQuery, gql } from "@apollo/client";
-import { Stats as IStats, Stats_statistics } from "./__generated__/Stats";
-import "./stats.scss";
+import { Stats as IStats, Stats_statistics } from "../__generated__/Stats"; 
+import "./statsTable.scss";
 
 const defaultFieldFormatter = (field: any) =>
   field === undefined ? "no data" : field;
@@ -171,22 +172,41 @@ const STATS_QUERY = gql`
   }
 `;
 
-export const Stats = () => {
-  const {data, loading, error} = useQuery<IStats>(STATS_QUERY, { pollInterval: 800 });
+export const StatsTable = () => { 
+  // const {data, loading, error} = useQuery<IStats>(STATS_QUERY, { pollInterval: 800 });
 
-  if (error) {
+  // if (error) {
+  //   return <h3>Couldn't connect to Mainnet</h3>
+  // }
+
+  // if (loading || !data) {
+  //   return <h3>Attempting connection</h3>;
+  // }
+
+  // const returnedStatistics = data.statistics;
+
+  const [data, setData] = useState<IStats>();
+
+  useEffect(() => {
+    async function getStats() {
+      const returned = await fetch('https://api.token.vega.xyz/statistcs').then(response => response.json());
+      setData(returned);
+    }
+
+    const interval = setInterval(getStats, 800)
+
+    return () => {
+      clearInterval(interval)
+    }
+  }, []);
+
+  if (!data?.statistics) {
     return <h3>Couldn't connect to Mainnet</h3>
   }
 
-  if (loading || !data) {
-    return <h3>Attempting connection</h3>;
-  }
-
-  const returnedStatistics = data.statistics;
-
   return (
     <table>
-      <thead><th colSpan={3}>Network Stats</th></thead>
+      <thead><th colSpan={3}>Vega Mainnet Stats</th></thead>
       {Object.entries(statsFields).map(([key, value]) => {
           const statKey = key as keyof Stats_statistics;
 
@@ -194,7 +214,8 @@ export const Stats = () => {
             return null;
           }
 
-          const statData = returnedStatistics[statKey];
+          // const statData = returnedStatistics[statKey];
+          const statData = data?.statistics[statKey];
 
           // Loop through the list of render options associated with the key
           return value.map((s) => {
