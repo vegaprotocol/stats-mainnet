@@ -11,6 +11,18 @@
     font-family: AlphaLyrae, "Helvetica neue", "Helvetica", arial, sans-serif;
 }
 
+.layout-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: repeat(2, auto) 1fr;
+}
+
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr) auto;
+  align-items: center;
+}
+
 .threshold {
     width: 10px;
     height: 10px;

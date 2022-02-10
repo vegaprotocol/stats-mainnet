@@ -200,36 +200,34 @@ export const StatsTable = () => {
   }, []);
 
   return (
-    <div className="place-self-center">
-      <table>
-        <thead><th colSpan={3} className="font-ap uppercase text-2xl">{ data?.statistics ? 'Vega Mainnet Stats' : 'Connecting to Mainnet...' }</th></thead>
-        { data?.statistics ? 
-          Object.entries(statsFields).map(([key, value]) => {
-            const statKey = key as keyof Stats_statistics;
+    <div className="w-auto self-start justify-self-center">
+      <div className="font-ap uppercase text-2xl">{ data?.statistics ? 'Vega Mainnet Stats' : 'Connecting to Mainnet...' }</div>
+      { data?.statistics ? 
+        Object.entries(statsFields).map(([key, value]) => {
+          const statKey = key as keyof Stats_statistics;
 
-            if (statKey === "__typename") {
-              return null;
-            }
+          if (statKey === "__typename") {
+            return null;
+          }
 
-            // const statData = returnedStatistics[statKey];
-            const statData = data?.statistics[statKey];
+          // const statData = returnedStatistics[statKey];
+          const statData = data?.statistics[statKey];
 
-            // Loop through the list of render options associated with the key
-            return value.map((s) => {
-              return (
-                <tr key={statKey}>
-                  <td>{s.title}</td>
-                  <td>{s.formatter ? s.formatter(statData) : defaultFieldFormatter(statData)}</td>
-                  <td>{s.goodThreshold ? (
-                    <div className="threshold" style={{backgroundColor: `${s.goodThreshold(statData) ? "green" : "red"}`}}></div>
-                  ) : null}</td>
-                </tr>
-              )
-            })
+          // Loop through the list of render options associated with the key
+          return value.map((s) => {
+            return (
+              <div className="stat-grid" key={statKey}>
+                <div>{s.title}</div>
+                <div>{s.formatter ? s.formatter(statData) : defaultFieldFormatter(statData)}</div>
+                <div>{s.goodThreshold ? (
+                  <div className="threshold" style={{backgroundColor: `${s.goodThreshold(statData) ? "green" : "red"}`}}></div>
+                ) : null}</div>
+              </div>
+            )
           })
-          : null
-        }
-      </table>
+        })
+        : null
+      }
     </div>
   );
 };

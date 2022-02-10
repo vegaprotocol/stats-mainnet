@@ -8,11 +8,13 @@ import { StatsBanner } from "./components/statsBanner";
 function App() {
   return (
     <div className="w-screen h-screen grid bg-white text-black dark:bg-black dark:text-white">
-      <ApolloProvider client={client}>
-        <Header />
-        <StatsBanner />
-        <StatsTable />
-      </ApolloProvider>
+      <div className="layout-grid w-screen max-w-xl justify-self-center">
+        <ApolloProvider client={client}>
+          <Header />
+          <StatsBanner />
+          <StatsTable />
+        </ApolloProvider>
+      </div>
     </div>
   );
 }
