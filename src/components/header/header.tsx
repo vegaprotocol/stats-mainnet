@@ -1,7 +1,5 @@
-const test = "blah";
-
 export const Header = () => {
   return (
-    <header>logo, light/dark mode toggle</header>
+    <header>header component for logo and light/dark mode toggle</header>
   );
 };

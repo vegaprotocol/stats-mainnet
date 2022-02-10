@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+
+/* Here add custom component styles as necessary */
+@font-face {
+  font-family: AlphaLyrae;
+  src: url(./AlphaLyrae-Medium.woff);
+}
+
+.font-ap {
+    font-family: AlphaLyrae, "Helvetica neue", "Helvetica", arial, sans-serif;
+}
+
+.threshold {
+    width: 10px;
+    height: 10px;
+}
+
+@tailwind utilities;

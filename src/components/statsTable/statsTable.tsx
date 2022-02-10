@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useQuery, gql } from "@apollo/client";
-import { Stats as IStats, Stats_statistics } from "../__generated__/Stats"; 
-import "./statsTable.scss";
+import { Stats as IStats, Stats_statistics } from "../__generated__/Stats";
 
 const defaultFieldFormatter = (field: any) =>
   field === undefined ? "no data" : field;
@@ -206,7 +205,7 @@ export const StatsTable = () => {
 
   return (
     <table>
-      <thead><th colSpan={3}>Vega Mainnet Stats</th></thead>
+      <thead><th colSpan={3} className="font-ap">Vega Mainnet Stats</th></thead>
       {Object.entries(statsFields).map(([key, value]) => {
           const statKey = key as keyof Stats_statistics;
 
