@@ -28,4 +28,12 @@
     height: 10px;
 }
 
+.bg-vega-green { 
+  background-color: #26ff8a; 
+}
+
+.bg-vega-red { 
+  background-color: #ff261a;
+}
+
 @tailwind utilities;

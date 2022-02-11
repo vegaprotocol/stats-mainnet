@@ -127,7 +127,7 @@ const statsFields: { [key in keyof Stats_statistics]: StatFields[] } = {
         const hours = Math.floor((secSinceStart / 60 / 60) % 24);
         const mins = Math.floor((secSinceStart / 60) % 60);
         const secs = Math.floor(secSinceStart % 60);
-        return `${days}d${hours}h${mins}m${secs}s`;
+        return `${days}d ${hours}h ${mins}m ${secs}s`;
       },
     },
     {
@@ -192,7 +192,7 @@ export const StatsTable = () => {
       setData(returned);
     }
 
-    const interval = setInterval(getStats, 800)
+    const interval = setInterval(getStats, 1000)
 
     return () => {
       clearInterval(interval)
@@ -200,34 +200,45 @@ export const StatsTable = () => {
   }, []);
 
   return (
-    <div className="w-auto self-start justify-self-center">
-      <div className="font-ap uppercase text-2xl">{ data?.statistics ? 'Vega Mainnet Stats' : 'Connecting to Mainnet...' }</div>
-      { data?.statistics ? 
-        Object.entries(statsFields).map(([key, value]) => {
-          const statKey = key as keyof Stats_statistics;
+    <div className="w-full max-w-md mt-10 self-start justify-self-center">
+      <h3 className="font-ap uppercase text-3xl pb-3">{ data?.statistics ? '/ Mainnet' : '/ Connecting...' }</h3>
+      <table className="w-full">
+        <tbody>
+          { data?.statistics ? 
+          Object.entries(statsFields).map(([key, value]) => {
+            const statKey = key as keyof Stats_statistics;
 
-          if (statKey === "__typename") {
-            return null;
-          }
+            if (statKey === "__typename") {
+              return null;
+            }
 
-          // const statData = returnedStatistics[statKey];
-          const statData = data?.statistics[statKey];
+            // const statData = returnedStatistics[statKey];
+            let statData = data?.statistics[statKey];
 
-          // Loop through the list of render options associated with the key
-          return value.map((s) => {
-            return (
-              <div className="stat-grid" key={statKey}>
-                <div>{s.title}</div>
-                <div>{s.formatter ? s.formatter(statData) : defaultFieldFormatter(statData)}</div>
-                <div>{s.goodThreshold ? (
-                  <div className="threshold" style={{backgroundColor: `${s.goodThreshold(statData) ? "green" : "red"}`}}></div>
-                ) : null}</div>
-              </div>
-            )
+            if (key === "upTime") {
+              // There's a discrepancy between the 'uptime' rest endpoint key and the 'upTime' graphql key. As we intend to go back to Graphql
+              // when it's ready, hard code this issue for now.
+              // @ts-ignore
+              statData = data?.statistics["uptime"]
+            }
+
+            // Loop through the list of render options associated with the key
+            return value.map((s, i) => {
+              return (
+                <tr className="border border-solid border-gray-400" key={i}>
+                  <td className="py-1 px-2">{s.title}</td>
+                  <td className="py-1 px-2 text-right">{s.formatter ? s.formatter(statData) : defaultFieldFormatter(statData)}</td>
+                  <td className="py-1 px-2">{s.goodThreshold ? (
+                    <div className={`w-2 h-2 rounded-xl ${s.goodThreshold(statData) ? "bg-vega-green" : "bg-vega-red"}`}></div>
+                  ) : null}</td>
+                </tr>
+              )
+            })
           })
-        })
-        : null
-      }
+          : null
+        }
+        </tbody>
+      </table>
     </div>
   );
 };
