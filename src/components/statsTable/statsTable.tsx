@@ -39,25 +39,25 @@ const statsFields: { [key in keyof Stats_statistics]: StatFields[] } = {
   ],
   tradesPerSecond: [
     {
-      title: "Trades/second",
+      title: "Trades / second",
       goodThreshold: (trades: number) => trades >= 2,
     },
   ],
   averageOrdersPerBlock: [
     {
-      title: "Orders/block",
+      title: "Orders / block",
       goodThreshold: (orders: number) => orders >= 2,
     },
   ],
   ordersPerSecond: [
     {
-      title: "Orders/s",
+      title: "Orders / s",
       goodThreshold: (orders: number) => orders >= 2,
     },
   ],
   txPerBlock: [
     {
-      title: "TX/block",
+      title: "TX / block",
       goodThreshold: (tx: number) => tx > 2,
     },
   ],
@@ -200,7 +200,7 @@ export const StatsTable = () => {
   }, []);
 
   return (
-    <div className="w-full max-w-md mt-10 self-start justify-self-center">
+    <div className="w-full max-w-md mt-10 md:mt-16 self-start justify-self-center">
       <h3 className="font-ap uppercase text-3xl pb-3">{ data?.statistics ? '/ Mainnet' : '/ Connecting...' }</h3>
       <table className="w-full">
         <tbody>
