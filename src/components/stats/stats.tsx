@@ -1,40 +1,55 @@
 import { useEffect, useState } from "react";
 import { statsFields } from "../../config/statsFields";
-import { Stats_statistics as IStatsStatistics, StructuredStats as IStructuredStats } from "../../config/types";
+import { Stats as IStats, StructuredStats as IStructuredStats } from "../../config/types";
 
 const defaultFieldFormatter = (field: any) =>
   field === undefined ? "no data" : field;
 
 export const Stats = () => { 
+  const displayError = () => (
+    <div className="stats-grid w-full max-w-3xl mt-10 md:mt-16 self-start justify-self-center px-6">
+      <h3 className="font-ap uppercase text-3xl pb-4">Connection error</h3>
+    </div>
+  );
+
   const [data, setData] = useState<IStructuredStats>();
 
   useEffect(() => {
     async function getStats() {
-      const returned = await fetch('https://api.token.vega.xyz/statistics').then(response => response.json());
+      try {
+        const { statistics } = await fetch('https://api.token.vega.xyz/statistics').then(response => response.json());
+        const { nodeData } = await fetch('https://api.token.vega.xyz/nodes-data').then((response) => response.json());
+        const returned = {...nodeData, ...statistics};
 
-      if (!returned.statistics) {
-        return;
+        if (!returned) {
+          throw new Error("Failed to get data from endpoints");
+        }
+
+        // Loop through the stats fields config, grabbing values from the fetched
+        // data and building a set of promoted and standard table entries. 
+        const structured = Object.entries(statsFields).reduce((acc, [key, value]) => {
+          const statKey = key as keyof IStats;
+
+          // const statData = returnedStatistics[statKey];
+          let statData = returned[statKey];
+
+          value.forEach((x) => {
+            const stat = {
+              ...x,
+              value: statData,
+            };
+
+            stat.promoted ? acc.promoted.push(stat) : acc.table.push(stat);
+          })
+
+          return acc;
+        }, {promoted: [], table: []} as IStructuredStats);
+
+        setData(structured);
+      } catch (e) {
+        console.log(e);
+        displayError();
       }
-
-      const structured = Object.entries(statsFields).reduce((acc, [key, value]) => {
-        const statKey = key as keyof IStatsStatistics;
-
-        // const statData = returnedStatistics[statKey];
-        let statData = returned.statistics[statKey];
-
-        value.forEach((x) => {
-          const stat = {
-            ...x,
-            value: statData,
-          };
-
-          stat.promoted ? acc.promoted.push(stat) : acc.table.push(stat);
-        })
-
-        return acc;
-      }, {promoted: [], table: []} as IStructuredStats);
-
-      setData(structured);
     }
 
     const interval = setInterval(getStats, 1000)
@@ -49,10 +64,10 @@ export const Stats = () => {
       <h3 className="font-ap uppercase text-3xl pb-4">{ data ? '/ Mainnet' : '/ Connecting...' }</h3>
 
       {data?.promoted ? 
-      (<div className="grid sm:grid-cols-2 md:grid-cols-1 mb-6">
+      (<div className="grid sm:grid-cols-2 md:grid-cols-1 gap-1 mb-6">
         {data.promoted.map((stat, i) => {
           return (
-            <div className="m-0.5 px-6 py-4 pr-16 border border-gray-400 items-center" key={i}>
+            <div className="px-6 py-4 pr-16 border border-gray-400 items-center" key={i}>
               <div>
                 <div className="uppercase text-[0.9375rem]">
                   {stat.goodThreshold ? (

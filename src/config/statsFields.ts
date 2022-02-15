@@ -1,15 +1,36 @@
-import { Stats_statistics as IStatsStatistics, StatFields as IStatFields } from "./types";
+import { Stats as IStats, StatFields as IStatFields } from "./types";
 
 // Stats fields config. Keys will correspond to graphql queries when used, and values
 // contain the associated data and methods we need to render. A single query
 // can be rendered in multiple ways (see 'upTime').
-export const statsFields: { [key in keyof IStatsStatistics]: IStatFields[] } = {
+export const statsFields: { [key in keyof IStats]: IStatFields[] } = {
     blockHeight: [
       {
         title: "Height",
         goodThreshold: (height: number) => height >= 60,
         promoted: true,
       },
+    ],
+    totalNodes: [
+        {
+            title: "Total nodes",
+        },
+    ],
+    validatingNodes: [
+        {
+            title: "Validating nodes",
+        },
+    ],
+    inactiveNodes: [
+        {
+            title: "Inactive nodes",
+        },
+    ],
+    stakedTotal: [
+        {
+            title: "Total staked",
+            formatter: (total: string) => total.length > 18 && parseInt(total.substring(0, total.length - 18)).toLocaleString('en-US')
+        },
     ],
     backlogLength: [
       {

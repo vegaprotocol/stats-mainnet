@@ -24,7 +24,7 @@
 @media (min-width: 768px) {
   .stats-grid {
     grid-template-columns: 18rem 1fr;
-    grid-column-gap: 1.5rem;
+    grid-column-gap: 1.25rem;
     align-items: flex-start;
   }
 
