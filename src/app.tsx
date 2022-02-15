@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { ApolloProvider } from "@apollo/client";
 import { client } from "./lib/apollo-client";
 import { Header } from "./components/header";

@@ -17,10 +17,20 @@
   grid-template-rows: repeat(2, auto) 1fr;
 }
 
-.stat-grid {
+.stats-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr) auto;
-  align-items: center;
+}
+
+@media (min-width: 768px) {
+  .stats-grid {
+    grid-template-columns: 18rem 1fr;
+    grid-column-gap: 1.5rem;
+    align-items: flex-start;
+  }
+
+  .stats-grid h3 {
+    grid-column: span 2;
+  }
 }
 
 .threshold {
