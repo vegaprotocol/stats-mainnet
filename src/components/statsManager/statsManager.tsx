@@ -4,11 +4,12 @@ import {
   Stats as IStats,
   StructuredStats as IStructuredStats,
 } from '../../config/types';
+import { Table } from '../table';
+import { TableRow } from '../tableRow';
+import { PromotedStats } from '../promotedStats';
+import { PromotedStatsItem } from '../promotedStatsItem';
 
-const defaultFieldFormatter = (field: any) =>
-  field === undefined ? 'no data' : field;
-
-export const Stats = () => {
+export const StatsManager = () => {
   const [data, setData] = useState<IStructuredStats | null>(null);
   const [error, setError] = useState<Error | null>(null);
 
@@ -72,67 +73,36 @@ export const Stats = () => {
       </h3>
 
       {data?.promoted ? (
-        <div className="grid sm:grid-cols-2 md:grid-cols-1 gap-1 mb-6">
+        <PromotedStats>
           {data.promoted.map((stat, i) => {
             return (
-              <div
-                className="px-6 py-4 pr-16 border border-gray-400 items-center"
+              <PromotedStatsItem
+                title={stat.title}
+                value={stat.value}
+                formatter={stat.formatter}
+                goodThreshold={stat.goodThreshold}
                 key={i}
-              >
-                <div>
-                  <div className="uppercase text-[0.9375rem]">
-                    {stat.goodThreshold ? (
-                      <div
-                        className={`inline-block w-2 h-2 mb-[0.15rem] mr-2 rounded-xl ${
-                          stat.goodThreshold(stat.value)
-                            ? 'bg-vega-green'
-                            : 'bg-vega-red'
-                        }`}
-                      />
-                    ) : null}
-                    <span>{stat.title}</span>
-                  </div>
-                  <div className="mt-1 text-2xl leading-none">
-                    {stat.formatter
-                      ? stat.formatter(stat.value)
-                      : defaultFieldFormatter(stat.value)}
-                  </div>
-                </div>
-              </div>
+              />
             );
           })}
-        </div>
+        </PromotedStats>
       ) : null}
 
-      <table>
-        <tbody>
-          {data?.table
-            ? data.table.map((stat, i) => {
-                return (
-                  <tr className="border border-gray-400" key={i}>
-                    <td className="py-1 px-2">{stat.title}</td>
-                    <td className="py-1 px-2 text-right">
-                      {stat.formatter
-                        ? stat.formatter(stat.value)
-                        : defaultFieldFormatter(stat.value)}
-                    </td>
-                    <td className="py-1 px-2">
-                      {stat.goodThreshold ? (
-                        <div
-                          className={`w-2 h-2 rounded-xl ${
-                            stat.goodThreshold(stat.value)
-                              ? 'bg-vega-green'
-                              : 'bg-vega-red'
-                          }`}
-                        ></div>
-                      ) : null}
-                    </td>
-                  </tr>
-                );
-              })
-            : null}
-        </tbody>
-      </table>
+      <Table>
+        {data?.table
+          ? data.table.map((stat, i) => {
+              return (
+                <TableRow
+                  title={stat.title}
+                  value={stat.value}
+                  formatter={stat.formatter}
+                  goodThreshold={stat.goodThreshold}
+                  key={i}
+                />
+              );
+            })
+          : null}
+      </Table>
     </div>
   );
 };
