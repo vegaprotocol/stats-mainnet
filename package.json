@@ -23,7 +23,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "generate": "npx apollo codegen:generate --target=typescript"
+    "generate": "apollo codegen:generate --target=typescript"
   },
   "eslintConfig": {
     "extends": [
@@ -47,6 +47,7 @@
     "graphql": "15.7.2"
   },
   "devDependencies": {
+    "apollo": "^2.33.9",
     "autoprefixer": "^10.4.2",
     "postcss": "^8.4.6",
     "prettier": "^2.5.1",
