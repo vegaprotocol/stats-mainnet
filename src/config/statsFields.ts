@@ -62,7 +62,7 @@ export const statsFields: { [key in keyof IStats]: IStatFields[] } = {
     ],
     txPerBlock: [
       {
-        title: "TX / block",
+        title: "Transactions / block",
         goodThreshold: (tx: number) => tx > 2,
       },
     ],

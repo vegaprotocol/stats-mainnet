@@ -12,7 +12,8 @@ export const Stats = () => {
     </div>
   );
 
-  const [data, setData] = useState<IStructuredStats>();
+  const [data, setData] = useState<IStructuredStats | null>(null);
+  const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
     async function getStats() {
@@ -21,7 +22,7 @@ export const Stats = () => {
         const { nodeData } = await fetch('https://api.token.vega.xyz/nodes-data').then((response) => response.json());
         const returned = {...nodeData, ...statistics};
 
-        if (!returned) {
+        if (!statistics || !nodeData) {
           throw new Error("Failed to get data from endpoints");
         }
 
@@ -46,9 +47,10 @@ export const Stats = () => {
         }, {promoted: [], table: []} as IStructuredStats);
 
         setData(structured);
+        setError(null);
       } catch (e) {
-        console.log(e);
-        displayError();
+        setData(null);
+        setError(e as Error);
       }
     }
 
@@ -61,7 +63,7 @@ export const Stats = () => {
 
   return (
     <div className="stats-grid w-full max-w-3xl mt-10 md:mt-16 self-start justify-self-center px-6">
-      <h3 className="font-ap uppercase text-3xl pb-4">{ data ? '/ Mainnet' : '/ Connecting...' }</h3>
+      <h3 className="font-ap uppercase text-3xl pb-4">{ (error && `/ ${error}`) || (data ? '/ Mainnet' : '/ Connecting...') }</h3>
 
       {data?.promoted ? 
       (<div className="grid sm:grid-cols-2 md:grid-cols-1 gap-1 mb-6">
