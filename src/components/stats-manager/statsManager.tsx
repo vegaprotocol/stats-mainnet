@@ -16,12 +16,14 @@ export const StatsManager = () => {
   useEffect(() => {
     async function getStats() {
       try {
-        const { statistics } = await fetch(
-          'https://api.token.vega.xyz/statistics'
-        ).then((response) => response.json());
-        const { nodeData } = await fetch(
-          'https://api.token.vega.xyz/nodes-data'
-        ).then((response) => response.json());
+        const [res1, res2] = await Promise.all([
+          fetch('https://api.token.vega.xyz/statistics'),
+          fetch('https://api.token.vega.xyz/nodes-data'),
+        ]);
+        const [{ statistics }, { nodeData }] = await Promise.all([
+          res1.json(),
+          res2.json(),
+        ]);
         const returned = { ...nodeData, ...statistics };
 
         if (!statistics || !nodeData) {
@@ -33,9 +35,7 @@ export const StatsManager = () => {
         const structured = Object.entries(statsFields).reduce(
           (acc, [key, value]) => {
             const statKey = key as keyof IStats;
-
-            // const statData = returnedStatistics[statKey];
-            let statData = returned[statKey];
+            const statData = returned[statKey];
 
             value.forEach((x) => {
               const stat = {
