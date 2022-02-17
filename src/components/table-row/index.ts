@@ -1,1 +1,1 @@
-export { TableRow } from './tableRow';
+export { TableRow, defaultFieldFormatter } from './tableRow';

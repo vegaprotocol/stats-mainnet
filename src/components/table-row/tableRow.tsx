@@ -1,5 +1,5 @@
-import React from 'react';
 import { StatFields } from '../../config/types';
+import { GoodThresholdIndicator } from '../good-threshold-indicator';
 
 export const defaultFieldFormatter = (field: any) =>
   field === undefined ? 'no data' : field;
@@ -17,13 +17,7 @@ export const TableRow = ({
         {formatter ? formatter(value) : defaultFieldFormatter(value)}
       </td>
       <td className="py-1 px-2">
-        {goodThreshold ? (
-          <div
-            className={`w-2 h-2 rounded-xl ${
-              goodThreshold(value) ? 'bg-vega-green' : 'bg-vega-red'
-            }`}
-          ></div>
-        ) : null}
+        <GoodThresholdIndicator goodThreshold={goodThreshold} value={value} />
       </td>
     </tr>
   );
