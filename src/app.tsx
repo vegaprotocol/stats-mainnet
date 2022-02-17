@@ -1,6 +1,6 @@
 import React from 'react';
 import { Header } from './components/header';
-import { StatsManager } from './components/statsManager';
+import { StatsManager } from './components/stats-manager';
 
 function App() {
   return (

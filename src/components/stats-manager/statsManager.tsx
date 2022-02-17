@@ -5,9 +5,9 @@ import {
   StructuredStats as IStructuredStats,
 } from '../../config/types';
 import { Table } from '../table';
-import { TableRow } from '../tableRow';
-import { PromotedStats } from '../promotedStats';
-import { PromotedStatsItem } from '../promotedStatsItem';
+import { TableRow } from '../table-row';
+import { PromotedStats } from '../promoted-stats';
+import { PromotedStatsItem } from '../promoted-stats-item';
 
 export const StatsManager = () => {
   const [data, setData] = useState<IStructuredStats | null>(null);

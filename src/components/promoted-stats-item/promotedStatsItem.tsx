@@ -1,6 +1,6 @@
 import React from 'react';
 import { StatFields } from '../../config/types';
-import { defaultFieldFormatter } from '../tableRow/tableRow';
+import { defaultFieldFormatter } from '../table-row/tableRow';
 
 export const PromotedStatsItem = ({
   title,
