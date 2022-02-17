@@ -1,3 +1,5 @@
+import { Dispatch, SetStateAction } from 'react';
+
 export interface Stats {
   blockHeight: string;
   totalNodes: string;
@@ -33,4 +35,9 @@ export interface StatFields {
 export interface StructuredStats {
   promoted: StatFields[];
   table: StatFields[];
+}
+
+export interface DarkModeState {
+  darkMode: boolean;
+  setDarkMode: (arg0: boolean) => void;
 }

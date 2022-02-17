@@ -1,12 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Header } from './components/header';
 import { StatsManager } from './components/stats-manager';
 
 function App() {
+  const [darkMode, setDarkMode] = useState<boolean>(
+    document.documentElement.classList.contains('dark')
+  );
+
   return (
-    <div className="w-screen h-screen grid bg-white dark:bg-black text-neutral-900 dark:text-neutral-200">
+    <div
+      className={`w-screen h-screen grid  ${
+        darkMode ? 'bg-black text-neutral-200' : 'bg-white text-neutral-900'
+      }`}
+    >
       <div className="layout-grid w-screen justify-self-center">
-        <Header />
+        <Header darkMode={darkMode} setDarkMode={setDarkMode} />
         <StatsManager />
       </div>
     </div>
