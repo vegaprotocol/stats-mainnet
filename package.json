@@ -22,8 +22,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "generate": "npx apollo codegen:generate --target=typescript"
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": [
