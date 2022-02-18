@@ -9,7 +9,7 @@ function App() {
 
   return (
     <div
-      className={`w-screen h-screen grid  ${
+      className={`w-screen min-h-screen grid pb-6 ${
         darkMode ? 'bg-black text-neutral-200' : 'bg-white text-neutral-900'
       }`}
     >
