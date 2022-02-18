@@ -4,7 +4,7 @@ import { StatsManager } from './components/stats-manager';
 
 function App() {
   const [darkMode, setDarkMode] = useState<boolean>(
-    document.documentElement.classList.contains('dark')
+    document.documentElement.classList.contains('dark-mode-preferred')
   );
 
   return (
