@@ -4,6 +4,26 @@ import { Stats as IStats, StatFields as IStatFields } from './types';
 // contain the associated data and methods we need to render. A single query
 // can be rendered in multiple ways (see 'upTime').
 export const statsFields: { [key in keyof IStats]: IStatFields[] } = {
+  status: [
+    {
+      title: 'Status',
+      formatter: (status: string) => {
+        if (!status) {
+          return;
+        }
+
+        const i = status.lastIndexOf('_');
+        if (i === -1) {
+          return status;
+        } else {
+          return status.substr(i + 1);
+        }
+      },
+      goodThreshold: (status: string) =>
+        status === 'CONNECTED' || status === 'CHAIN_STATUS_CONNECTED',
+      promoted: true,
+    },
+  ],
   blockHeight: [
     {
       title: 'Height',
@@ -19,6 +39,7 @@ export const statsFields: { [key in keyof IStats]: IStatFields[] } = {
   validatingNodes: [
     {
       title: 'Validating nodes',
+      promoted: true,
     },
   ],
   inactiveNodes: [
@@ -75,33 +96,6 @@ export const statsFields: { [key in keyof IStats]: IStatFields[] } = {
       formatter: (duration: number) => (duration / 1000000000).toFixed(3),
       goodThreshold: (blockDuration: number) =>
         blockDuration > 0 && blockDuration <= 2000000000,
-    },
-  ],
-  status: [
-    {
-      title: 'Status',
-      formatter: (status: string) => {
-        if (!status) {
-          return;
-        }
-
-        const i = status.lastIndexOf('_');
-        if (i === -1) {
-          return status;
-        } else {
-          return status.substr(i + 1);
-        }
-      },
-      goodThreshold: (status: string) =>
-        status === 'CONNECTED' || status === 'CHAIN_STATUS_CONNECTED',
-      promoted: true,
-    },
-  ],
-  totalPeers: [
-    {
-      title: 'Peers',
-      goodThreshold: (peers: number) => peers >= 2,
-      promoted: true,
     },
   ],
   vegaTime: [

@@ -11,7 +11,6 @@ export interface Stats {
   txPerBlock: string;
   blockDuration: string;
   status: string;
-  totalPeers: string;
   vegaTime: string;
   appVersion: string;
   chainVersion: string;
