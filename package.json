@@ -2,6 +2,9 @@
   "name": "stats-mainnet",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": ">=16.13.2"
+  },
   "dependencies": {
     "@radix-ui/react-tooltip": "^0.1.6",
     "@testing-library/jest-dom": "^5.14.1",
