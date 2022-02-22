@@ -81,6 +81,7 @@ export const StatsManager = () => {
                 value={stat.value}
                 formatter={stat.formatter}
                 goodThreshold={stat.goodThreshold}
+                description={stat.description}
                 key={i}
               />
             );
@@ -97,6 +98,7 @@ export const StatsManager = () => {
                   value={stat.value}
                   formatter={stat.formatter}
                   goodThreshold={stat.goodThreshold}
+                  description={stat.description}
                   key={i}
                 />
               );

@@ -27,6 +27,7 @@ export interface StatFields {
   formatter?: (arg0: value) => any;
   promoted?: boolean;
   value?: value;
+  description?: string;
 }
 
 export interface StructuredStats {
