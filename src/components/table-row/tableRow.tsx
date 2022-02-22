@@ -1,3 +1,4 @@
+import { Tooltip } from '../tooltip';
 import { StatFields } from '../../config/types';
 import { GoodThresholdIndicator } from '../good-threshold-indicator';
 
@@ -9,16 +10,19 @@ export const TableRow = ({
   formatter,
   goodThreshold,
   value,
+  description,
 }: StatFields) => {
   return (
-    <tr className="border border-gray-400">
-      <td className="py-1 px-2">{title}</td>
-      <td className="py-1 px-2 text-right">
-        {formatter ? formatter(value) : defaultFieldFormatter(value)}
-      </td>
-      <td className="py-1 px-2">
-        <GoodThresholdIndicator goodThreshold={goodThreshold} value={value} />
-      </td>
-    </tr>
+    <Tooltip description={description}>
+      <tr className="border border-gray-400">
+        <td className="py-1 px-2">{title}</td>
+        <td className="py-1 px-2 text-right">
+          {formatter ? formatter(value) : defaultFieldFormatter(value)}
+        </td>
+        <td className="py-1 px-2">
+          <GoodThresholdIndicator goodThreshold={goodThreshold} value={value} />
+        </td>
+      </tr>
+    </Tooltip>
   );
 };
