@@ -19,7 +19,7 @@ jobs:
           registry-url: https://registry.npmjs.org/
 
       - name: Install
-        run: yarn install --prod --pure-lockfile
+        run: yarn install --pure-lockfile
 
       - name: Build
         run: yarn run build
