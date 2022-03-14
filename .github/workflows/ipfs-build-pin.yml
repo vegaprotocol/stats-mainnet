@@ -24,7 +24,7 @@ jobs:
       - name: Build
         run: yarn run build
 
-      - name: Push release to npm (public)
+      - name: Push release to Pinata (public)
         uses: aquiladev/ipfs-action@v0.2.0
         with:
           verbose: true
