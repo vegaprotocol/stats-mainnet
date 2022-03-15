@@ -2,7 +2,7 @@
   "name": "stats-mainnet",
   "version": "0.1.0",
   "engines": {
-    "node": ">=16.13.2"
+    "node": "~16"
   },
   "dependencies": {
     "@radix-ui/react-tooltip": "^0.1.6",
