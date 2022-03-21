@@ -1,6 +1,6 @@
 # Vega mainnet statistics
 
-[https://status.vega.trading/](https://status.vega.trading/)
+☁️ https://stats.vega.trading / ⚡️ ipns://stats.vega.trading
 
 ## Overview
 
