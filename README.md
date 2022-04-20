@@ -1,3 +1,6 @@
+> ⚠️ **This project has migrated:** [vegaprotocol/frontend-monorepo](https://github.com/vegaprotocol/frontend-monorepo/tree/master/apps/stats). Future development will be happening in that repo
+
+
 # Vega mainnet statistics
 
 ☁️ https://status.vega.trading / ⚡️ ipns://status.vega.trading / 🌩️ ipns://status.vegaprotocol.eth
